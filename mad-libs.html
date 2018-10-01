@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <meta charset = "utf-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" href="mad-libs.css">
+        <link href='https://fonts.googleapis.com/css?family=Architects Daughter' rel='stylesheet'>
+        <script>
+            /*global $*/
+            $(document).ready(function() {
+                $("#story").hide();
+                $("#recipeSection").hide();
+                $("#storyButton").click(function(e) {
+                    e.preventDefault();
+                    $(".adjective").empty().append($("#adjective").val());
+                    $(".pnoun").empty().append($("#pnoun").val());
+                    $(".body").empty().append($("#body").val());
+                    $(".verb").empty().append($("#verb").val());
+                    $(".verb2").empty().append($("#verb2").val());
+                    $(".pnoun2").empty().append($("#pnoun2").val());
+                    $(".adjective2").empty().append($("#adjective2").val());
+                    $(".adjective3").empty().append($("#adjective3").val());
+                    $(".food").empty().append($("#food").val());
+                    $(".pnoun3").empty().append($("#pnoun3").val());
+                    $("#story").show();
+                    $("#recipeSection").show();
+                    var url = "https://www.food2fork.com/api/search?key=b5279f4cb57be62545f95fde087f5e3f&q="+$("#food").val();
+                    $.ajax({
+                        url : url,
+                        dataType : "json",
+                        success : function(parsed_json) {
+                            var list = "<ul>";
+                            var array = parsed_json["recipes"];
+                            $.each(array, function(i, recipe) {
+                                list += '<li> <a href="'+array[i].source_url+'">';
+                                list += array[i].title;
+                                list += "</a></li>";
+                            });
+                            list += "</ul>";
+                            $("#recipes").html(list);
+                        }
+                    });
+                    $(':input').val('');
+                });
+            });
+        </script>
+        <script>
+           // https://www.food2fork.com/api/search?key=b5279f4cb57be62545f95fde087f5e3f&q=shredded%20chicken
+        </script>
+    </head>
+    <body>
+        <div class="container">
+        <div class="header">
+        <h1 id="title"><b>Welcome to Mad-for-Food Libs!</b></h1>
+        <h2>Enter the Following (with single words, please!) to Build a Hilarious Story and Get a New Recipe . . . </h2>
+        </div>
+        <form id="input">
+            <label for="adjective">Adjective</label><br>
+            <input id="adjective" type="text" placeholder="Enter an Adjective"><br>
+            
+            <label for="pnoun">Plural Noun</label><br>
+            <input id="pnoun" type="text" placeholder="Enter a Plural Noun"><br>
+            
+            <label for="body">Part of the Body</label><br>
+            <input id="body" type="text" placeholder="Enter a Part of the Body"><br>
+            
+            <label for="verb">Verb</label><br>
+            <input id="verb" type="text" placeholder="Enter a Verb"><br>
+            
+            <label for="verb2">Verb</label><br>
+            <input id="verb2" type="text" placeholder="Enter a Verb"><br>
+            
+            <label for="pnoun2">Plural Noun</label><br>
+            <input id="pnoun2" type="text" placeholder="Enter a Plural Noun"><br>
+            
+            <label for="adjective2">Adjective</label><br>
+            <input id="adjective2" type="text" placeholder="Enter an Adjective"><br>
+            
+            <label for="adjective3">Adjective</label><br>
+            <input id="adjective3" type="text" placeholder="Enter an Adjective"><br>
+            
+            <label for="food">Type of Food (plural)</label><br>
+            <input id="food" type="text" placeholder="Enter a Type of Food"><br>
+            
+            <label for="pnoun3">Plural Noun</label><br>
+            <input id="pnoun3" type="text" placeholder="Enter a Plural Noun"><br>
+        </form>
+        <button id="storyButton" type="submit">See Story!</button>
+        <br>
+        <div id="story">
+            <h2>Story . . . </h2>
+            <p>Everybody loves the smell of <b><span class="adjective"></span> <span class="pnoun"></span></b> wafting from the kitchen
+            after a long day. The scent is enough to make your <b><span class="body"></span> <span class="verb"></span></b> and your mind
+            <b><span class="verb2"></span></b> with dreams of eating <b><span class="pnoun2"></span></b>. All food is <b><span class="adjective2"></span></b>,
+            but my personal favorite is <b><span class="adjective3"></span> <span class="food"></span></b> with <b><span class="pnoun3"></span></b> 
+            on the side!</p>
+            <br>
+        </div>
+        <div id="recipeSection">
+            <h2>Recipes with <span class="food"></span> . . . </h2>
+            <div id="recipes"></div>
+        </div>
+        </div>
+    </body>
+</html>
+
+
+
+
+
+
+
+
